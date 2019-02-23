@@ -2,18 +2,15 @@
   <div class="hello">
     <h1>{{ titulo }}</h1>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Nome</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="pokemon in pokemons" :key="pokemon.name">
-          <td>{{pokemon.name}}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="row">
+
+      <div class="col-md-2 m-b-5" v-for="pokemon in pokemons" :key="pokemon.name">
+        <ul class="list-group margin-bottom-10">
+          <li class="list-group-item">{{pokemon.name}}</li>
+        </ul>
+      </div>
+
+    </div>
   </div>
 </template>
 
@@ -40,5 +37,8 @@ export default {
 
 
 <style scoped>
+.m-b-5 {
+    margin-bottom: 5px;
+}
 
 </style>
