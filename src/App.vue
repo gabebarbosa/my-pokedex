@@ -1,7 +1,10 @@
 <template>
-  <div id="app">
-    <Pokemon titulo="lista de pokemons"/>
-  </div>
+  <body>
+    <div id="app" class="container">
+      <Pokemon titulo="lista de pokemons"/>
+    </div>
+  </body>
+  
 </template>
 
 <script>
