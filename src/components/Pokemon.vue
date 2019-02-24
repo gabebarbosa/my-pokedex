@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div>
     
     <h1 class="text-center">{{ titulo }}</h1>
 
@@ -127,7 +127,7 @@ export default {
   },
   mounted () {
     axios
-      .get('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=24')
+      .get('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=16')
       .then(response => (
               this.spriteShiny = false,
               this.pokemons = response.data.results,
