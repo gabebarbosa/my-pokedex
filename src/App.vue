@@ -1,7 +1,7 @@
 <template>
   <body>
     <div id="app" class="container">
-      <Pokemon titulo="lista de pokemons"/>
+      <Pokemon titulo="Pokemons"/>
     </div>
   </body>
   

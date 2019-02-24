@@ -6,9 +6,11 @@
     <div class="row m-b-5">
 
       <div class="col-md-2 m-b-5" v-for="pokemon in pokemons" :key="pokemon.name">
-        <ul class="list-group margin-bottom-10">
-          <li class="list-group-item">{{pokemon.name}}</li>
-        </ul>
+        <a 
+          class="list-group-item list-group-item-action text-center"
+          v-on:click="selecionarPokemon(pokemon)">
+          {{pokemon.name}}
+        </a>
       </div>
 
     </div>
@@ -35,6 +37,26 @@
       </div>
 
     </div>
+
+    <div class="row text-center" v-if="!!pokemonSelecionado" >
+      <div class="card col-md-2" style="width: 18rem;">
+        <img class="card-img-top" v-bind:src="pokemonSelecionado.sprites.front_default">
+      </div>
+
+      <div class="col-md-10 text-left">
+        <span>#{{pokemonSelecionado.order}}</span> <br>
+        <span>{{pokemonSelecionado.name}}</span>
+      </div>
+
+
+      <!-- <div class="col-md-2">
+        <div>
+          <img v-bind:src="pokemonSelecionado.sprites.front_default" class="rounded">
+        </div>
+      </div>
+      
+      {{pokemonSelecionado.id}} - {{pokemonSelecionado.name}} -->
+    </div>
   </div>
 </template>
 
@@ -50,7 +72,8 @@ export default {
     return {
       pokemons: null,
       proximo: null,
-      anterior: null
+      anterior: null,
+      pokemonSelecionado: null
     }
   },
   methods: {
@@ -62,9 +85,6 @@ export default {
               this.proximo = response.data.next,
               this.anterior = response.data.previous
               ),
-      this.pokemons.forEach(pokemon => {
-        this.lerPokemonCompleto(pokemon)  
-      })
       )
     },
     irAoAnterior() {
@@ -74,18 +94,15 @@ export default {
               this.pokemons = response.data.results,
               this.proximo = response.data.next,
               this.anterior = response.data.previous
-              ),
-      this.pokemons.forEach(pokemon => {
-        this.lerPokemonCompleto(pokemon)  
-      })
+              )
       )
     },
-    lerPokemonCompleto (pokemon) {
+    selecionarPokemon (pokemon) {
       axios
       .get(pokemon.url)
       .then(
         response => (
-          pokemon = response.data
+          this.pokemonSelecionado = response.data
         )
       )
     }
@@ -96,7 +113,8 @@ export default {
       .then(response => (
               this.pokemons = response.data.results,
               this.proximo = response.data.next,
-              this.anterior = response.data.previous
+              this.anterior = response.data.previous,
+              this.pokemonSelecionado = this.selecionarPokemon({url: "https://pokeapi.co/api/v2/pokemon/1/"})
               )
       )
   }
