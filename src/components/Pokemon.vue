@@ -40,22 +40,32 @@
 
     <div class="row text-center" v-if="!!pokemonSelecionado" >
       <div class="card col-md-2" style="width: 18rem;">
-        <img class="card-img-top" v-bind:src="pokemonSelecionado.sprites.front_default">
+        <div class="card-body">
+          <img 
+            class="card-img-top" 
+            v-bind:src="pokemonSelecionado.sprites.front_default"
+            v-if="!spriteShiny">
+          <img 
+            class="card-img-top" 
+            v-bind:src="pokemonSelecionado.sprites.front_shiny"
+            v-else>
+
+            <p class="card-text">#{{pokemonSelecionado.id}} - {{pokemonSelecionado.name}}</p>
+
+            <button 
+              v-on:click="verSpriteShiny()" 
+              class="btn btn-outline-success btn-sm btn-block"
+              v-if="!spriteShiny">Shiny</button>
+            <button 
+              v-on:click="verSpriteNormal()" 
+              class="btn btn-outline-success btn-sm btn-block"
+              v-else>Normal</button>
+        </div>
       </div>
 
       <div class="col-md-10 text-left">
-        <span>#{{pokemonSelecionado.order}}</span> <br>
-        <span>{{pokemonSelecionado.name}}</span>
+        
       </div>
-
-
-      <!-- <div class="col-md-2">
-        <div>
-          <img v-bind:src="pokemonSelecionado.sprites.front_default" class="rounded">
-        </div>
-      </div>
-      
-      {{pokemonSelecionado.id}} - {{pokemonSelecionado.name}} -->
     </div>
   </div>
 </template>
@@ -73,7 +83,8 @@ export default {
       pokemons: null,
       proximo: null,
       anterior: null,
-      pokemonSelecionado: null
+      pokemonSelecionado: null,
+      spriteShiny: null
     }
   },
   methods: {
@@ -102,15 +113,23 @@ export default {
       .get(pokemon.url)
       .then(
         response => (
+          this.spriteShiny = false,
           this.pokemonSelecionado = response.data
         )
       )
+    },
+    verSpriteShiny () {
+      this.spriteShiny = true
+    },
+    verSpriteNormal () {
+      this.spriteShiny = false
     }
   },
   mounted () {
     axios
       .get('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=24')
       .then(response => (
+              this.spriteShiny = false,
               this.pokemons = response.data.results,
               this.proximo = response.data.next,
               this.anterior = response.data.previous,
