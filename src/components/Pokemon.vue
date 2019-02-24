@@ -35,46 +35,21 @@
             Próximo
         </button>
       </div>
-
     </div>
 
-    <div class="row text-center" v-if="!!pokemonSelecionado" >
-      <div class="card col-md-2" style="width: 18rem;">
-        <div class="card-body">
-          <img 
-            class="card-img-top" 
-            v-bind:src="pokemonSelecionado.sprites.front_default"
-            v-if="!spriteShiny">
-          <img 
-            class="card-img-top" 
-            v-bind:src="pokemonSelecionado.sprites.front_shiny"
-            v-else>
-
-            <p class="card-text">#{{pokemonSelecionado.id}} - {{pokemonSelecionado.name}}</p>
-
-            <button 
-              v-on:click="verSpriteShiny()" 
-              class="btn btn-outline-success btn-sm btn-block"
-              v-if="!spriteShiny">Shiny</button>
-            <button 
-              v-on:click="verSpriteNormal()" 
-              class="btn btn-outline-success btn-sm btn-block"
-              v-else>Normal</button>
-        </div>
-      </div>
-
-      <div class="col-md-10 text-left">
-        
-      </div>
-    </div>
+    <PokemonCard :pokemon="{pokemonSelecionado}"/>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
+import PokemonCard from './PokemonCard.vue'
 
 export default {
   name: 'Pokemon',
+  components: {
+    PokemonCard
+  },
   props: {
     titulo: String
   },
@@ -83,8 +58,7 @@ export default {
       pokemons: null,
       proximo: null,
       anterior: null,
-      pokemonSelecionado: null,
-      spriteShiny: null
+      pokemonSelecionado: null
     }
   },
   methods: {
@@ -113,23 +87,15 @@ export default {
       .get(pokemon.url)
       .then(
         response => (
-          this.spriteShiny = false,
           this.pokemonSelecionado = response.data
         )
       )
-    },
-    verSpriteShiny () {
-      this.spriteShiny = true
-    },
-    verSpriteNormal () {
-      this.spriteShiny = false
     }
   },
   mounted () {
     axios
       .get('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=16')
       .then(response => (
-              this.spriteShiny = false,
               this.pokemons = response.data.results,
               this.proximo = response.data.next,
               this.anterior = response.data.previous,
