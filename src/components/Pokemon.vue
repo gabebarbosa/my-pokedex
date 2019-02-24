@@ -5,7 +5,7 @@
 
     <div class="row m-b-5">
 
-      <div class="col-md-2 m-b-5" v-for="pokemon in pokemons" :key="pokemon.name">
+      <div class="col-md-3 m-b-5" v-for="pokemon in pokemons" :key="pokemon.name">
         <a 
           class="list-group-item list-group-item-action text-center"
           v-on:click="selecionarPokemon(pokemon)">
@@ -109,7 +109,7 @@ export default {
   },
   mounted () {
     axios
-      .get('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=18')
+      .get('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=24')
       .then(response => (
               this.pokemons = response.data.results,
               this.proximo = response.data.next,
@@ -126,5 +126,8 @@ export default {
 .m-b-5 {
     margin-bottom: 5px;
 }
+h1 {
+  color: white;
+};
 
 </style>
